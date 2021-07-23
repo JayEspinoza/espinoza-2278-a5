@@ -22,7 +22,6 @@ start(Stage primaryStage) : void
 
 class inventory {
 addItem(item newItem) : void
-validateSerial(String serialCheck) : boolean
 removeItem(String serialRemove) : void
 sortByValue(ArrayList<item> myInventory) : void
 sortBySerial(ArrayList<item> myInventory) : void
@@ -40,6 +39,12 @@ class inventoryItem {
 editSerial(String newSerial) : void
 editValue(String newValue) : void
 editName(String newName) : void
+getSerial() : String
+getValue() : String
+getName() : String
+validateSerial(String serialCheck) : boolean
+validateName(String nameCheck) : boolean
+validateValue(String valueCheck) : boolean
 }
 
 class InventoryController {
