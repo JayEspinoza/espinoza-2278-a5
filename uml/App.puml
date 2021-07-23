@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class App
+class inventory
+class inventoryItem
+class InventoryController
+
+javafx.Assignment5 <|-- App
+
+App -- inventory
+App -- inventoryItem
+App -- InventoryController
+
+list -- item
+
+class App {
+main(String [] args) : void
+start(Stage primaryStage) : void
+}
+
+
+class inventory {
+addItem(item newItem) : void
+validateSerial(String serialCheck) : boolean
+removeItem(String serialRemove) : void
+sortByValue(ArrayList<item> myInventory) : void
+sortBySerial(ArrayList<item> myInventory) : void
+sortByName(ArrayList<item> myInventory) : void
+findBySerial(ArrayList<item> myInventory) : void
+findByName(ArrayList<item> myInventory) : void
+saveInventory(ArrayList<item> myInventory) : void
+}
+
+class inventoryItem {
+- serial : String
+- value : String
+- name : String
+
+editSerial(String newSerial) : void
+editValue(String newValue) : void
+editName(String newName) : void
+}
+
+class InventoryController {
+- textArea: TextArea
+
+}
+
+@enduml
