@@ -1,5 +1,7 @@
 package ucf.assignments;
 
+import java.util.ArrayList;
+
 public class inventoryItem {
     // Create private variables "value," "serial," and "name"
     private String value, serial, name;
@@ -38,7 +40,7 @@ public class inventoryItem {
 
     // Method validateSerial checks to see if a serial number
     // is valid
-    public boolean validateSerial(String serialCheck){
+    public boolean validateSerial(String serialCheck, ArrayList<inventoryItem> comparedList){
         // Check to see if the String meets the required
         // length
         if(serialCheck.length() != 10){
@@ -51,6 +53,12 @@ public class inventoryItem {
         // Check to see if each character is a letter or number
         for(char c : splitSerial){
             if(!(Character.isLetter(c)) || !(Character.isDigit(c)))
+                return false;
+        }
+
+        // Check to see if the serial already exists
+        for(inventoryItem c : comparedList){
+            if(c.getSerial().equals(serialCheck))
                 return false;
         }
 
