@@ -159,5 +159,35 @@ public class inventory {
         return sortedList;
     }
 
+    // Method findSerial finds and returns the item associated
+    // with the input serial number
+    public inventoryItem findSerial(String serialTrack){
+        inventoryItem placeholderItem = new inventoryItem("0", "XXXXXXXXXX", "N/A");
 
+        // Loop through the list
+        for(int i = 0; i < inventoryList.size(); i++) {
+            // Return serial item if found
+            if(inventoryList.get(i).getSerial().equals(serialTrack))
+                return inventoryList.get(i);
+        }
+
+        // Otherwise return placeholder
+        return placeholderItem;
+    }
+
+    // Method findName finds and returns the item associated
+    // with the input name
+    public inventoryItem findName(String nameTrack){
+        inventoryItem placeholderItem = new inventoryItem("0", "XXXXXXXXXX", "N/A");
+
+        // Loop through the list
+        for(int i = 0; i < inventoryList.size(); i++) {
+            // Return serial item if found
+            if(inventoryList.get(i).getName().equals(nameTrack))
+                return inventoryList.get(i);
+        }
+
+        // Otherwise return placeholder
+        return placeholderItem;
+    }
 }

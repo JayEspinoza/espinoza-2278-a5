@@ -23,14 +23,14 @@ start(Stage primaryStage) : void
 class inventory {
 inventoryList : ArrayList<inventoryItem>
 
-getInventory() : ArrayList<inventoryItem>
+getInventoryList() : ArrayList<inventoryItem>
 addItem(inventoryItem newItem) : void
 removeItem(String serialRemove) : void
 sortByValue() : ArrayList<inventoryItem>
 sortBySerial() : ArrayList<inventoryItem>
 sortByName() : ArrayList<inventoryItem>
-findBySerial() : inventoryItem
-findByName() : inventoryItem
+findBySerial(String serialTrack) : inventoryItem
+findByName(String nameTrack) : inventoryItem
 saveInventory() : inventoryItem
 }
 
