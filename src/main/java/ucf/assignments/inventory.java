@@ -28,13 +28,13 @@ public class inventory {
 
     // Method printList prints the list inputted in a value, serial, name format
     public String printList(ArrayList<inventoryItem> listPrint){
-        String returnList = String.format("%.15s %.15s %s\n", "Value", "Serial Number", "Name");
+        String returnList = String.format("%-10s\t %-15s\t %s\n", "Value", "Serial Number", "Name");
 
         // Loop through the list
         for(int i = 0; i < listPrint.size(); i++) {
             // Add the proper values to their spots in the string
             // according to the format
-            returnList += String.format("%.15s %.15s %s\n", listPrint.get(i).getValue(), listPrint.get(i).getSerial(), listPrint.get(i).getName());
+            returnList += String.format("%-10s\t %-15s\t %s\n", listPrint.get(i).getValue(), listPrint.get(i).getSerial(), listPrint.get(i).getName());
         }
 
         return returnList;
@@ -189,5 +189,56 @@ public class inventory {
 
         // Otherwise return placeholder
         return placeholderItem;
+    }
+
+    // Method validateName checks to see if the name is valid
+    public boolean validateName(String newName){
+        if(newName.length() >= 2)
+            return true;
+
+        return false;
+    }
+
+    // Method validateSerial checks to see if a serial number
+    // is valid
+    public boolean validateSerial(String serialCheck){
+        // Check to see if the String meets the required
+        // length
+        if(serialCheck.length() != 10){
+            return false;
+        }
+
+        // Split the string into characters
+        char [] splitSerial = serialCheck.toCharArray();
+
+        // Check to see if each character is a letter or number
+        for(char c : splitSerial){
+            if((Character.isLetter(c)) || (Character.isDigit(c)))
+                continue;
+            else
+                return false;
+        }
+
+        // Check to see if the serial already exists
+        for(inventoryItem c : inventoryList){
+            if(c.getSerial().equals(serialCheck))
+                return false;
+        }
+
+        // Return true if so
+        return true;
+    }
+
+    // Method validateValue checks to see if value is a
+    // valid number
+    public boolean validateValue(String newValue){
+        // Check to see if value is a valid number
+        try{
+            Double.parseDouble(newValue);
+            return true;
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
     }
 }
