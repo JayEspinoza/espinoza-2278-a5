@@ -60,6 +60,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void loadClick(ActionEvent actionEvent) {
         // Prompt the user for the file name
         TextInputDialog dialog = new TextInputDialog("list");
@@ -76,6 +77,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void nameSearchClick(ActionEvent actionEvent) {
         // Prompt user for the name they want to search for
         TextInputDialog nameDialog = new TextInputDialog("Name");
@@ -85,7 +87,7 @@ public class InventoryController {
         nameDialog.setHeaderText("Please Enter a Name. (I.E. Dog)");
         nameDialog.setContentText("Name:");
 
-        while(!inventoryManager.validateName(ui)){
+        while(!(inventoryManager.validateName(ui))){
             ui = nameDialog.showAndWait().get();
         }
 
@@ -93,11 +95,13 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printItem(inventoryManager.findName(ui)));
     }
 
+    @FXML
     public void nameSortClick(ActionEvent actionEvent) {
         // Sort by name and set text
         textWindow.setText(inventoryManager.printList(inventoryManager.sortByName()));
     }
 
+    @FXML
     public void saveClick(ActionEvent actionEvent) {
         // Prompt the user for the file name
         TextInputDialog dialog = new TextInputDialog("list");
@@ -112,16 +116,17 @@ public class InventoryController {
         inventoryManager.saveInventory(newFile);
     }
 
+    @FXML
     public void serialSearchClick(ActionEvent actionEvent) {
         // Prompt user for the serial they want to search for
         TextInputDialog serialDialog = new TextInputDialog("Name");
         String ui = "";
 
-        serialDialog.setTitle("Name");
-        serialDialog.setHeaderText("Please Enter a Name. (I.E. Dog)");
-        serialDialog.setContentText("Name:");
+        serialDialog.setTitle("Serial Number");
+        serialDialog.setHeaderText("Please Enter a Serial Number");
+        serialDialog.setContentText("Serial Number:");
 
-        while(!inventoryManager.validateSerial(ui)){
+        while(!(inventoryManager.validateSerial(ui))){
             ui = serialDialog.showAndWait().get();
         }
 
@@ -129,11 +134,13 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printItem(inventoryManager.findSerial(ui)));
     }
 
+    @FXML
     public void valueSortClick(ActionEvent actionEvent) {
         // Run sortByValue and output to screen.
         textWindow.setText(inventoryManager.printList(inventoryManager.sortByValue()));
     }
 
+    @FXML
     public void editNameClick(ActionEvent actionEvent) {
         // Prompt user for item
         TextInputDialog nameDialog = new TextInputDialog("Name");
@@ -158,6 +165,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void editValueClick(ActionEvent actionEvent) {
         // Prompt user for item
         TextInputDialog valueDialog = new TextInputDialog("Value");
@@ -179,7 +187,7 @@ public class InventoryController {
         valueDialog.setContentText("Value:");
 
         while(!inventoryManager.validateValue(newValue)){
-            valueDialog.showAndWait().get();
+            newValue = valueDialog.showAndWait().get();
         }
 
         // Change item value
@@ -187,6 +195,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void removeItemClick(ActionEvent actionEvent) {
         // Prompt the user for the item
         TextInputDialog dialog = new TextInputDialog("list");
@@ -200,6 +209,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void editSerialClick(ActionEvent actionEvent) {
         // Prompt user for item
         TextInputDialog replaceDialog = new TextInputDialog("Serial");
@@ -221,7 +231,7 @@ public class InventoryController {
         replaceDialog.setContentText("Serial:");
 
         while(!inventoryManager.validateSerial(newValue)){
-            replaceDialog.showAndWait().get();
+            newValue = replaceDialog.showAndWait().get();
         }
 
         // Change item value
@@ -229,6 +239,7 @@ public class InventoryController {
         textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
+    @FXML
     public void serialSortClick(ActionEvent actionEvent) {
         // Sort by serial and set text
         textWindow.setText(inventoryManager.printList(inventoryManager.sortBySerial()));

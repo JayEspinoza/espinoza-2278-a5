@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class inventory {
@@ -39,7 +40,7 @@ public class inventory {
         for(int i = 0; i < listPrint.size(); i++) {
             // Add the proper values to their spots in the string
             // according to the format
-            returnList += String.format("%-10s\t %-15s\t %s\n", listPrint.get(i).getValue(), listPrint.get(i).getSerial(), listPrint.get(i).getName());
+            returnList += String.format("$%-10s\t %-15s\t %s\n", listPrint.get(i).getValue(), listPrint.get(i).getSerial(), listPrint.get(i).getName());
         }
 
         return returnList;
@@ -47,132 +48,23 @@ public class inventory {
 
     // Method sortByValue sorts the list by the value parameter
     public ArrayList<inventoryItem> sortByValue(){
-        // Create a new list
-        ArrayList<inventoryItem> sortedList = new ArrayList<>();
-        double biggestNum = -1;
-        int currentBig = 0;
-        // Loop through the main list
-        for(int i = 0; i < inventoryList.size(); i++) {
-            // Determine which values are the greatest and move them
-            // over to the new list
-            for(int j = 0; j < inventoryList.size() - i; j++){
-                if(Double.parseDouble(inventoryList.get(j).getValue()) > biggestNum){
-                    biggestNum = Double.parseDouble(inventoryList.get(j).getValue());
-                    currentBig = j;
-                }
-            }
-
-            sortedList.add(inventoryList.get(currentBig));
-            inventoryList.remove(currentBig);
-
-            biggestNum = -1;
-            currentBig = 0;
-        }
-
-        inventoryList = sortedList;
-
-        return sortedList;
+        // Run Comparator to sort by name
+        Collections.sort(inventoryList, inventoryItem.valueComparator);
+        return inventoryList;
     }
 
     // Method sortBySerial sorts the list by serial numbers
     public ArrayList<inventoryItem> sortBySerial(){
-        // Create a new list
-        ArrayList<inventoryItem> sortedList = new ArrayList<>();
-        String comparedString = "0000000000";
-        int currentBig = 0;
-        char [] splitStringMain = comparedString.toCharArray();
-        char [] splitStringSecondary;
-        int charTracker = 1;
-
-        // Loop through the main list
-        for(int i = 0; i < inventoryList.size(); i ++) {
-            for(int j = 0; j < inventoryList.size() - i; j++) {
-                splitStringSecondary = inventoryList.get(j).getSerial().toCharArray();
-                // Determine which serial is the greatest by comparing the first char
-                // If same char, move onto the next char
-                if(splitStringMain[0] == splitStringSecondary[0]){
-                    while(charTracker != splitStringMain.length){
-                        if(splitStringMain[charTracker] == splitStringSecondary[charTracker]) {
-                            charTracker++;
-                            continue;
-                        }
-                        else if(splitStringMain[charTracker] > splitStringSecondary[charTracker]) {
-                            break;
-                        }
-                        else if(splitStringMain[charTracker] < splitStringSecondary[charTracker]){
-                            comparedString = inventoryList.get(j).getSerial();
-                            splitStringMain = comparedString.toCharArray();
-                            currentBig = j;
-                            break;
-                        }
-                    }
-                    charTracker = 1;
-                }
-                else if(splitStringMain[0] < splitStringSecondary[0]){
-                    comparedString = inventoryList.get(j).getSerial();
-                    splitStringMain = comparedString.toCharArray();
-                    currentBig = j;
-                }
-            }
-
-            sortedList.add(inventoryList.get(currentBig));
-            inventoryList.remove(currentBig);
-            currentBig = 0;
-            splitStringMain = comparedString.toCharArray();
-        }
-
-        inventoryList = sortedList;
-        return sortedList;
+        // Run Comparator to sort by serial number
+        Collections.sort(inventoryList, inventoryItem.serialComparator);
+        return inventoryList;
     }
 
     // Method sortByName sorts the list by name
     public ArrayList<inventoryItem> sortByName(){
-        // Create a new list
-        ArrayList<inventoryItem> sortedList = new ArrayList<>();
-        String comparedString = "";
-        int currentBig = 0;
-        char [] splitStringMain = comparedString.toCharArray();
-        char [] splitStringSecondary;
-        int charTracker = 1;
-
-        // Loop through the main list
-        for(int i = 0; i < inventoryList.size(); i ++) {
-            for(int j = 0; j < inventoryList.size() - i; j++) {
-                splitStringSecondary = inventoryList.get(j).getName().toCharArray();
-                // Determine which name is the greatest by comparing the first char
-                // If same char, move onto the next char
-                if(splitStringMain[0] == splitStringSecondary[0]){
-                    while(charTracker != splitStringMain.length){
-                        if(splitStringMain[charTracker] == splitStringSecondary[charTracker]) {
-                            charTracker++;
-                            continue;
-                        }
-                        else if(splitStringMain[charTracker] > splitStringSecondary[charTracker]) {
-                            break;
-                        }
-                        else if(splitStringMain[charTracker] < splitStringSecondary[charTracker]){
-                            comparedString = inventoryList.get(j).getName();
-                            splitStringMain = comparedString.toCharArray();
-                            currentBig = j;
-                            break;
-                        }
-                    }
-                    charTracker = 1;
-                }
-                else if(splitStringMain[0] < splitStringSecondary[0]){
-                    comparedString = inventoryList.get(j).getName();
-                    splitStringMain = comparedString.toCharArray();
-                    currentBig = j;
-                }
-            }
-
-            sortedList.add(inventoryList.get(currentBig));
-            inventoryList.remove(currentBig);
-            currentBig = 0;
-            splitStringMain = comparedString.toCharArray();
-        }
-
-        return sortedList;
+        // Run Comparator to sort by name
+        Collections.sort(inventoryList, inventoryItem.nameComparator);
+        return inventoryList;
     }
 
     // Method findSerial finds and returns the item associated
@@ -209,10 +101,10 @@ public class inventory {
 
     // Method validateName checks to see if the name is valid
     public boolean validateName(String newName){
-        if(newName.length() >= 2)
+        if(newName.length() >= 2 && newName.length() <= 256)
             return true;
-
-        return false;
+        else
+            return false;
     }
 
     // Method validateSerial checks to see if a serial number
@@ -262,7 +154,7 @@ public class inventory {
     public String printItem(inventoryItem printedItem){
         // Assemble string
         String output = String.format("%-10s\t %-15s\t %s\n", "Value", "Serial Number", "Name");
-        output += String.format("%-10s\t %-15s\t %s\n", printedItem.getValue(), printedItem.getSerial(), printedItem.getName());
+        output += String.format("$%-10s\t %-15s\t %s\n", printedItem.getValue(), printedItem.getSerial(), printedItem.getName());
 
         return output;
     }
@@ -324,7 +216,7 @@ public class inventory {
             splitKeeper = loadedList.get(i).split("\t");
 
             // Create new items
-            newItem = new inventoryItem(splitKeeper[0], splitKeeper[1], splitKeeper[2]);
+            newItem = new inventoryItem(splitKeeper[0].replaceAll("\\s", ""), splitKeeper[1].replaceAll("\\s", ""), splitKeeper[2].replaceAll("\\s", ""));
 
             // Add the items to the inventory
             inventoryList.add(newItem);
