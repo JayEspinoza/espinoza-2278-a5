@@ -12,8 +12,6 @@ App -- inventory
 App -- inventoryItem
 App -- InventoryController
 
-list -- item
-
 class App {
 main(String [] args) : void
 start(Stage primaryStage) : void
@@ -21,17 +19,23 @@ start(Stage primaryStage) : void
 
 
 class inventory {
-inventoryList : ArrayList<inventoryItem>
++inventoryList : ArrayList<inventoryItem>
 
-getInventoryList() : ArrayList<inventoryItem>
-addItem(inventoryItem newItem) : void
-removeItem(String serialRemove) : void
-sortByValue() : ArrayList<inventoryItem>
-sortBySerial() : ArrayList<inventoryItem>
-sortByName() : ArrayList<inventoryItem>
-findBySerial(String serialTrack) : inventoryItem
-findByName(String nameTrack) : inventoryItem
-saveInventory() : inventoryItem
++getInventoryList() : ArrayList<inventoryItem>
++addItem(inventoryItem newItem) : void
++removeItem(String serialRemove) : void
++sortByValue() : ArrayList<inventoryItem>
++sortBySerial() : ArrayList<inventoryItem>
++sortByName() : ArrayList<inventoryItem>
++findBySerial(String serialTrack) : inventoryItem
++findByName(String nameTrack) : inventoryItem
++validateSerial(String serialCheck) : boolean
++validateName(String nameCheck) : boolean
++validateValue(String valueCheck) : boolean
++saveInventory() : void
++loadInventory() : void
+-splitList(ArrayList<String> loadedList) : void
+-clearList() : void
 }
 
 class inventoryItem {
@@ -39,20 +43,29 @@ class inventoryItem {
 - value : String
 - name : String
 
-editSerial(String newSerial) : void
-editValue(String newValue) : void
-editName(String newName) : void
-getSerial() : String
-getValue() : String
-getName() : String
-validateSerial(String serialCheck) : boolean
-validateName(String nameCheck) : boolean
-validateValue(String valueCheck) : boolean
++editSerial(String newSerial) : void
++editValue(String newValue) : void
++editName(String newName) : void
++getSerial() : String
++getValue() : String
++getName() : String
 }
 
 class InventoryController {
-- textArea: TextArea
+- textWindow: TextArea
 
++addItemClick() : void
++removeItemClick() : void
++loadClick() : void
++saveClick() : void
++nameSearchClick() : void
++serialSearchClick() : void
++nameSortClick() : void
++valueSortClick() : void
++serialSortClick() : void
++editNameClick() : void
++editValueClick() : void
++editSerialClick() : void
 }
 
 @enduml

@@ -40,7 +40,7 @@
             <Insets right="30.0" top="310.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#valueSearchClick" style="-fx-background-color: #006b9c;" text="Value Search" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <Button mnemonicParsing="false" onAction="#nameSearchClick" style="-fx-background-color: #006b9c;" text="Name Search" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets right="30.0" top="260.0" />
          </GridPane.margin>

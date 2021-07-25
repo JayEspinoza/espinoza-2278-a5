@@ -9,6 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.concurrent.Task;
 
+import java.io.File;
+
 public class InventoryController {
     inventory inventoryManager = new inventory();
 
@@ -17,7 +19,7 @@ public class InventoryController {
 
     @FXML
     public void addItemClick(ActionEvent actionEvent) {
-        // Prompt user for Inventory tem parameters
+        // Prompt user for Inventory item parameters
         String ui1, ui2, ui3;
         ui1 = "";
         ui2 = "";
@@ -46,7 +48,7 @@ public class InventoryController {
         }
 
         nameDialog.setTitle("Name");
-        nameDialog.setHeaderText("Please Enter a Name. (I.E. Dog");
+        nameDialog.setHeaderText("Please Enter a Name. (I.E. Dog)");
         nameDialog.setContentText("Name:");
 
         while(!inventoryManager.validateName(ui3)){
@@ -59,35 +61,176 @@ public class InventoryController {
     }
 
     public void loadClick(ActionEvent actionEvent) {
+        // Prompt the user for the file name
+        TextInputDialog dialog = new TextInputDialog("list");
+        String ui = "";
+
+        dialog.setTitle("Load List");
+        dialog.setHeaderText("What is the name of the file? (I.E name.txt)");
+        dialog.setContentText("Name:");
+
+        ui = dialog.showAndWait().get();
+
+        // Utilize the file output to load the list
+        inventoryManager.loadInventory(ui);
+        textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
-    public void valueSearchClick(ActionEvent actionEvent) {
+    public void nameSearchClick(ActionEvent actionEvent) {
+        // Prompt user for the name they want to search for
+        TextInputDialog nameDialog = new TextInputDialog("Name");
+        String ui = "";
+
+        nameDialog.setTitle("Name");
+        nameDialog.setHeaderText("Please Enter a Name. (I.E. Dog)");
+        nameDialog.setContentText("Name:");
+
+        while(!inventoryManager.validateName(ui)){
+            ui = nameDialog.showAndWait().get();
+        }
+
+        // Run search function
+        textWindow.setText(inventoryManager.printItem(inventoryManager.findName(ui)));
     }
 
     public void nameSortClick(ActionEvent actionEvent) {
+        // Sort by name and set text
+        textWindow.setText(inventoryManager.printList(inventoryManager.sortByName()));
     }
 
     public void saveClick(ActionEvent actionEvent) {
+        // Prompt the user for the file name
+        TextInputDialog dialog = new TextInputDialog("list");
+
+        dialog.setTitle("File Name");
+        dialog.setHeaderText("What is the name of the file? (I.E name.txt)");
+        dialog.setContentText("Name:");
+
+        // Open a file
+        File newFile = new File(dialog.showAndWait().get());
+        // Write the list to the file
+        inventoryManager.saveInventory(newFile);
     }
 
     public void serialSearchClick(ActionEvent actionEvent) {
+        // Prompt user for the serial they want to search for
+        TextInputDialog serialDialog = new TextInputDialog("Name");
+        String ui = "";
+
+        serialDialog.setTitle("Name");
+        serialDialog.setHeaderText("Please Enter a Name. (I.E. Dog)");
+        serialDialog.setContentText("Name:");
+
+        while(!inventoryManager.validateSerial(ui)){
+            ui = serialDialog.showAndWait().get();
+        }
+
+        // Run search function
+        textWindow.setText(inventoryManager.printItem(inventoryManager.findSerial(ui)));
     }
 
     public void valueSortClick(ActionEvent actionEvent) {
+        // Run sortByValue and output to screen.
+        textWindow.setText(inventoryManager.printList(inventoryManager.sortByValue()));
     }
 
     public void editNameClick(ActionEvent actionEvent) {
+        // Prompt user for item
+        TextInputDialog nameDialog = new TextInputDialog("Name");
+        TextInputDialog serialDialog = new TextInputDialog("Serial");
+        String editItem = "";
+
+        serialDialog.setTitle("Serial Number");
+        serialDialog.setHeaderText("Enter the serial number of the item you want to change.");
+        serialDialog.setContentText("Serial:");
+
+        while(inventoryManager.findSerial(editItem).getName().equals("N/A")) {
+            editItem = serialDialog.showAndWait().get();
+        }
+
+        // Prompt user for new name
+        nameDialog.setTitle("Item Name");
+        nameDialog.setHeaderText("Enter the new name.");
+        nameDialog.setContentText("Item:");
+
+        // Change item name
+        inventoryManager.findSerial(editItem).editName(nameDialog.showAndWait().get());
+        textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
     public void editValueClick(ActionEvent actionEvent) {
+        // Prompt user for item
+        TextInputDialog valueDialog = new TextInputDialog("Value");
+        TextInputDialog serialDialog = new TextInputDialog("Serial");
+        String itemSerial = "";
+        String newValue = "";
+
+        serialDialog.setTitle("Serial Number");
+        serialDialog.setHeaderText("Enter the serial number of the item you want to change.");
+        serialDialog.setContentText("Serial:");
+
+        while(inventoryManager.findSerial(itemSerial).getName().equals("N/A")) {
+            itemSerial = serialDialog.showAndWait().get();
+        }
+
+        // Prompt user for new name
+        valueDialog.setTitle("Item Value");
+        valueDialog.setHeaderText("Enter the new value.");
+        valueDialog.setContentText("Value:");
+
+        while(!inventoryManager.validateValue(newValue)){
+            valueDialog.showAndWait().get();
+        }
+
+        // Change item value
+        inventoryManager.findSerial(itemSerial).editValue(newValue);
+        textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
     public void removeItemClick(ActionEvent actionEvent) {
+        // Prompt the user for the item
+        TextInputDialog dialog = new TextInputDialog("list");
+
+        dialog.setTitle("Serial Number");
+        dialog.setHeaderText("Enter the serial number of the item you want to remove.");
+        dialog.setContentText("Serial Number:");
+
+        // Remove the item from the list
+        inventoryManager.removeItem(dialog.showAndWait().get());
+        textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
     public void editSerialClick(ActionEvent actionEvent) {
+        // Prompt user for item
+        TextInputDialog replaceDialog = new TextInputDialog("Serial");
+        TextInputDialog serialDialog = new TextInputDialog("Serial");
+        String itemSerial = "";
+        String newValue = "";
+
+        serialDialog.setTitle("Serial Number");
+        serialDialog.setHeaderText("Enter the serial number of the item you want to change.");
+        serialDialog.setContentText("Serial:");
+
+        while(inventoryManager.findSerial(itemSerial).getName().equals("N/A")) {
+            itemSerial = serialDialog.showAndWait().get();
+        }
+
+        // Prompt user for new serial
+        replaceDialog.setTitle("Item Serial");
+        replaceDialog.setHeaderText("Enter the new serial.");
+        replaceDialog.setContentText("Serial:");
+
+        while(!inventoryManager.validateSerial(newValue)){
+            replaceDialog.showAndWait().get();
+        }
+
+        // Change item value
+        inventoryManager.findSerial(itemSerial).editSerial(newValue);
+        textWindow.setText(inventoryManager.printList(inventoryManager.inventoryList));
     }
 
     public void serialSortClick(ActionEvent actionEvent) {
+        // Sort by serial and set text
+        textWindow.setText(inventoryManager.printList(inventoryManager.sortBySerial()));
     }
 }

@@ -1,8 +1,9 @@
 package ucf.assignments;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class inventoryItem {
+public class inventoryItem{
     // Create private variables "value," "serial," and "name"
     private String value, serial, name;
 
@@ -48,4 +49,12 @@ public class inventoryItem {
         // Return name
         return name;
     }
+
+    public static Comparator<inventoryItem> serialComparator = new Comparator<inventoryItem>() {
+        public int compare(inventoryItem itemOne, inventoryItem itemTwo) {
+            String itemSerialOne = itemOne.getSerial().toUpperCase();
+            String itemSerialTwo = itemTwo.getSerial().toUpperCase();
+
+            return itemSerialOne.compareTo(itemSerialTwo);
+        }};
 }

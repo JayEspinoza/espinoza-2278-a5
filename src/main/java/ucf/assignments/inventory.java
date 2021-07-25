@@ -1,6 +1,11 @@
 package ucf.assignments;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class inventory {
     ArrayList<inventoryItem> inventoryList = new ArrayList<>();
@@ -58,9 +63,13 @@ public class inventory {
             }
 
             sortedList.add(inventoryList.get(currentBig));
+            inventoryList.remove(currentBig);
+
             biggestNum = -1;
             currentBig = 0;
         }
+
+        inventoryList = sortedList;
 
         return sortedList;
     }
@@ -107,8 +116,12 @@ public class inventory {
             }
 
             sortedList.add(inventoryList.get(currentBig));
+            inventoryList.remove(currentBig);
+            currentBig = 0;
+            splitStringMain = comparedString.toCharArray();
         }
 
+        inventoryList = sortedList;
         return sortedList;
     }
 
@@ -116,7 +129,7 @@ public class inventory {
     public ArrayList<inventoryItem> sortByName(){
         // Create a new list
         ArrayList<inventoryItem> sortedList = new ArrayList<>();
-        String comparedString = "0000000000";
+        String comparedString = "";
         int currentBig = 0;
         char [] splitStringMain = comparedString.toCharArray();
         char [] splitStringSecondary;
@@ -154,6 +167,9 @@ public class inventory {
             }
 
             sortedList.add(inventoryList.get(currentBig));
+            inventoryList.remove(currentBig);
+            currentBig = 0;
+            splitStringMain = comparedString.toCharArray();
         }
 
         return sortedList;
@@ -240,5 +256,83 @@ public class inventory {
         catch(NumberFormatException e){
             return false;
         }
+    }
+
+    // Method printItem returns a single item string
+    public String printItem(inventoryItem printedItem){
+        // Assemble string
+        String output = String.format("%-10s\t %-15s\t %s\n", "Value", "Serial Number", "Name");
+        output += String.format("%-10s\t %-15s\t %s\n", printedItem.getValue(), printedItem.getSerial(), printedItem.getName());
+
+        return output;
+    }
+
+    // Method saveList saves a list to external storage
+    public void saveInventory(File file){
+        // Create a new scanner based on name
+        String output = "";
+
+        try {
+            FileWriter writer = new FileWriter(file);
+            // For loop through the list for the length of the list
+            writer.write(String.format("%-10s\t %-15s\t %s\n", "Value", "Serial Number", "Name"));
+            for(int i = 0; i < inventoryList.size(); i++){
+                // Output each item to the newly created file
+                writer.write(String.format("%-10s\t %-15s\t %s\n", inventoryList.get(i).getValue(), inventoryList.get(i).getSerial(), inventoryList.get(i).getName()));
+            }
+            // Close file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Method loadInventory loads an inventory list
+    public void loadInventory(String ui){
+        clearList();
+        // Open a file
+        int i = 1;
+        inventoryItem placeholderItem = new inventoryItem("0", "XXXXXXXXXX", "N/A");
+        File loadedFile = new File(ui);
+        ArrayList<String> loadedList = new ArrayList<>();
+
+        try {
+            Scanner reader = new Scanner(loadedFile);
+            // While loop through the file until a blank line is reached
+            while(reader.hasNextLine()) {
+                // Add the results of each line to a list
+                loadedList.add(reader.nextLine());
+            }
+
+            reader.close();
+            splitList(loadedList);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void splitList(ArrayList<String> loadedList) {
+        String [] splitKeeper;
+        inventoryItem newItem;
+
+        // Loop through the list
+        for(int i = 1; i < loadedList.size(); i++) {
+            // Split the Strings into separate strings split by
+            // the tab
+            splitKeeper = loadedList.get(i).split("\t");
+
+            // Create new items
+            newItem = new inventoryItem(splitKeeper[0], splitKeeper[1], splitKeeper[2]);
+
+            // Add the items to the inventory
+            inventoryList.add(newItem);
+        }
+    }
+
+    // Method clearList removes all items from the list
+    private void clearList(){
+        inventoryList.clear();
     }
 }
